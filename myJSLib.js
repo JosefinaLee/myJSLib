@@ -38,6 +38,29 @@ function removeClass(elem, className){
     }
 }
 
+function addEvent(elem, type, fn){
+    if(elem.addEventListener){
+        elem.addEventListener(type, fn, false);
+    }else if(elem.attachEvent){
+        elem[type+fn] = function(){
+            fn.call(elem);
+        };
+        elem.attachEvent('on'+type, elem[type+fn]);
+    }else{
+        elem['on'+type] = fn;
+    }
+}
+
+function removeEvent(elem, type, fn){
+    if(elem.removeEventListener){
+        elem.removeEventListener(type, fn, false);
+    }else if(elem.detachEvent){
+        elem.detachEvent('on'+type, elem[type+fn]);
+    }else{
+        elem['on'+type] = null;
+    }
+}
+
 ///////////From "Pro JavaScript Techniques" of John Resig/////////////
 function append( parent, elem ) {
     // Get the array of elements
